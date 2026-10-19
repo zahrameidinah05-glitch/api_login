@@ -1,0 +1,29 @@
+:root{--bg:#f4f5f7;--card:#fff;--text:#1d2433;--muted:#667085;--line:#d0d5dd;--brand:#2f5bea;--brand-d:#2448c4;--err:#b42318;--err-bg:#fef3f2;--ok:#067647;--ok-bg:#ecfdf3}
+@media(prefers-color-scheme:dark){:root{--bg:#10131a;--card:#181c26;--text:#e8ebf2;--muted:#98a2b3;--line:#344054;--brand:#6c8cff;--brand-d:#8aa3ff;--err:#fda29b;--err-bg:#3a1a18;--ok:#75e0a7;--ok-bg:#12301f}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:16px;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px}
+.card.wide{max-width:560px}
+h1{margin:0 0 4px;font-size:1.4rem}
+.sub{margin:0 0 20px;color:var(--muted);font-size:.92rem}
+label{display:block;margin:14px 0 6px;font-size:.9rem;font-weight:600}
+input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit;font:inherit}
+input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:transparent}
+.hint{margin:4px 0 0;color:var(--muted);font-size:.8rem}
+button,.btn{display:block;width:100%;margin-top:20px;padding:11px;border:0;border-radius:8px;background:var(--brand);color:#fff;font:inherit;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
+button:hover,.btn:hover{background:var(--brand-d)}
+button:disabled{opacity:.6;cursor:wait}
+button.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}
+.links{margin-top:18px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.9rem}
+a{color:var(--brand)}
+.msg{margin-bottom:14px;padding:10px 12px;border-radius:8px;font-size:.9rem}
+.msg[hidden]{display:none}
+.msg.error{background:var(--err-bg);color:var(--err)}
+.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.msg ul{margin:0;padding-left:18px}
+.msg code{word-break:break-all}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0 0 8px}
+dt{color:var(--muted)}dd{margin:0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+h2{font-size:1.05rem;margin:24px 0 0}

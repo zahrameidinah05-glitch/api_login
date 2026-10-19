@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="card wide">
+<h1>Dashboard</h1>
+<p class="sub" id="hello">Memuat…</p>
+<div class="msg" role="alert" hidden></div>
+<dl id="profile"></dl>
+<h2>Daftar Buku</h2>
+<table><thead><tr><th>Judul</th><th>Penulis</th><th>Status</th></tr></thead><tbody id="books"></tbody></table>
+<button type="button" class="secondary" id="logout">Logout</button>
+</main>
+<script src="/app.js"></script>
+<script>
+
+const box = document.querySelector('.msg');
+document.getElementById('logout').onclick = () => { store.clear(); location.href = '/login'; };
+(async () => {
+  try {
+    const me = await api('/auth/me', { auth: true });
+    document.getElementById('hello').textContent = 'Halo, ' + me.name + '!';
+    const dl = document.getElementById('profile');
+    for (const [k, v] of [['NIM', me.nim], ['Email', me.email], ['Bergabung', new Date(me.joinedDate).toLocaleDateString('id-ID')]]) {
+      const dt = document.createElement('dt'); dt.textContent = k;
+      const dd = document.createElement('dd'); dd.textContent = v;
+      dl.append(dt, dd);
+    }
+    const books = await api('/books');
+    const tb = document.getElementById('books');
+    for (const b of books) {
+      const tr = document.createElement('tr');
+      for (const t of [b.title, b.author, b.isAvailable ? 'Tersedia' : 'Dipinjam']) {
+        const td = document.createElement('td'); td.textContent = t; tr.append(td);
+      }
+      tb.append(tr);
+    }
+  } catch (err) {
+    if (err.status === 401) { store.clear(); location.replace('/login'); return; }
+    showMessage(box, 'error', err.messages);
+  }
+})();
+</script>
+</body>
+</html>

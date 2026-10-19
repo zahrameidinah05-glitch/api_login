@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Perpustakaan</title>
+<script>
+var t = null; try { t = localStorage.getItem('accessToken'); } catch (e) {}
+location.replace(t ? '/dashboard' : '/login');
+</script></head><body></body></html>

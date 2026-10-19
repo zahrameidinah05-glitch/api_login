@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Register Member</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="card">
+<h1>Register Member</h1>
+<p class="sub">Buat akun member perpustakaan.</p>
+<form novalidate>
+  <div class="msg" role="alert" hidden></div>
+  <label for="nim">NIM</label>
+  <input id="nim" name="nim" autocomplete="off" required>
+  <label for="name">Nama</label>
+  <input id="name" name="name" autocomplete="name" required>
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" autocomplete="email" required>
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password" autocomplete="new-password" required>
+  <p class="hint">Minimal 8 karakter, mengandung huruf dan angka.</p>
+  <button type="submit">Register</button>
+</form>
+<div class="links"><span>Sudah punya akun?</span><a href="/login">Login</a></div>
+</main>
+<script src="/app.js"></script>
+<script>
+
+wireForm(document.querySelector('form'), async (v) => {
+  await api('/auth/register', { method: 'POST', body: v });
+  location.href = '/login?registered=1';
+});
+</script>
+</body>
+</html>

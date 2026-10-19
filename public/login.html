@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="card">
+<h1>Login</h1>
+<p class="sub">Masuk dengan akun member Anda.</p>
+<form novalidate>
+  <div class="msg" role="alert" hidden></div>
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email" autocomplete="username" required>
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password" autocomplete="current-password" required>
+  <button type="submit">Login</button>
+</form>
+<div class="links"><a href="/register">Daftar member</a><a href="/forgot-password">Lupa password?</a></div>
+</main>
+<script src="/app.js"></script>
+<script>
+
+if (store.get()) location.replace('/dashboard');
+const p = new URLSearchParams(location.search);
+const form = document.querySelector('form');
+if (p.get('registered')) showMessage(form.querySelector('.msg'), 'ok', 'Pendaftaran berhasil, silakan login.');
+if (p.get('reset')) showMessage(form.querySelector('.msg'), 'ok', 'Password berhasil diubah, silakan login.');
+wireForm(form, async (v) => {
+  const r = await api('/auth/login', { method: 'POST', body: v });
+  store.set(r.accessToken);
+  location.href = '/dashboard';
+});
+</script>
+</body>
+</html>
