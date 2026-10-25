@@ -6,8 +6,6 @@ import {
     Delete,
     Param,
     Body,
-    NotFoundException,
-    ParseIntPipe,
 } from '@nestjs/common';
 import { BooksService } from './books.service.js';
 import { Book } from './entities/book.entity.js';
@@ -17,42 +15,32 @@ export class BooksController {
     constructor(private readonly booksService: BooksService) {}
 
     @Get()
-    findAll(): Book[] {
-        return this.booksService.findAll();
+    async findAll(): Promise<Book[]> {
+        return await this.booksService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number): Book {
-        const book = this.booksService.findOne(id);
-        if (!book) {
-            throw new NotFoundException(`Buku dengan id ${id} tidak ditemukan`);
-        }
-        return book;
+    async findOne(@Param('id') id: string): Promise<Book> {
+        return await this.booksService.findById(id);
     }
 
     @Post()
-    create(@Body() bookData: Omit<Book, 'id'>): Book {
-        return this.booksService.create(bookData);
+    async create(@Body() bookData: Partial<Book>): Promise<Book> {
+        return await this.booksService.create(bookData);
     }
 
     @Patch(':id')
-    update(
-        @Param('id', ParseIntPipe) id: number,
+    async update(
+        @Param('id') id: string,
         @Body() bookData: Partial<Book>,
-    ): Book {
-        const updated = this.booksService.update(id, bookData);
-        if (!updated) {
-            throw new NotFoundException(`Buku dengan id ${id} tidak ditemukan`);
-        }
-        return updated;
+    ): Promise<Book> {
+        return await this.booksService.update(id, bookData);
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: number): { message: string } {
-        const removed = this.booksService.remove(id);
-        if (!removed) {
-            throw new NotFoundException(`Buku dengan id ${id} tidak ditemukan`);
-        }
-        return { message: `Buku dengan id ${id} berhasil dihapus` };
+    async remove(
+        @Param('id') id: string,
+    ): Promise<{ message: string; deletedId: string }> {
+        return await this.booksService.remove(id);
     }
 }

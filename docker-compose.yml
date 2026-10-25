@@ -1,0 +1,21 @@
+services:
+  #nama service container basis data
+
+  login-api:
+    image: postgres:16-alpine
+    container_name: login-api
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: login-api
+    ports: 
+      #Format: "PortKomputerKalian:PortKomputerContainerDocker"
+      - "5432:5432"
+    volumes:
+    #menyimpan data database ke dalam volume agar tidak hilang saat container dihapus
+      - postgres-data_volume:/var/lib/postgresql/data  
+
+volumes:
+  postgres-data_volume:
+
